@@ -70,184 +70,49 @@
             border-radius: 5px;
             font-size: 16px;
         }
-        .product-card {
-            transition: transform 0.3s ease;
-            height: 100%;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
     </style>
 </head>
 <body>
-    <!-- Navigation bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="acceuil">Product Store</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="acceuil">Home</a>
-                    </li>
-                    <c:if test="${user.role == 'ADMIN'}">
-                        <li class="nav-item">
-                            <a class="nav-link" href="add">Add Product</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="admin/orders">Manage Orders</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="admin/users">Manage Users</a>
-                        </li>
-                    </c:if>
-                </ul>
-                <ul class="navbar-nav">
-                    <c:choose>
-                        <c:when test="${empty user}">
-                            <li class="nav-item">
-                                <a class="nav-link" href="login">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="register">Register</a>
-                            </li>
-                        </c:when>
-                        <c:otherwise>
-                            <c:if test="${user.role == 'USER'}">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="cart">
-                                        <i class="fas fa-shopping-cart"></i> Cart
-                                        <c:if test="${not empty cart and cart.itemCount > 0}">
-                                            <span class="badge bg-danger">${cart.itemCount}</span>
-                                        </c:if>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="my-orders">My Orders</a>
-                                </li>
-                            </c:if>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                    <i class="fas fa-user"></i> ${user.username}
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="logout">Logout</a></li>
-                                </ul>
-                            </li>
-                        </c:otherwise>
-                    </c:choose>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
     <div class="container">
-        <h1 class="text-center mb-4">Our Products</h1>
+        <h1 class="text-center mb-4">Product Management</h1>
         
         <!-- Search Form -->
-        <form class="search-form d-flex justify-content-center mb-4" method="get" action="search">
-            <div class="input-group" style="max-width: 500px;">
-                <input name="mc" type="text" class="form-control" placeholder="Search by name..." value="${mc}">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-search"></i> Search
-                </button>
-            </div>
+        <form class="search-form d-flex justify-content-center" method="get" action="search">
+            <input name="mc" type="text" id="searchInput" class="search-input" placeholder="Search by Name or ID..." value="${mc}">
+            <button type="submit" class="btn btn-primary">Search</button>
         </form>
 
         <c:choose>
             <c:when test="${empty products}">
-                <div class="alert alert-info text-center">
-                    <h4>No products found</h4>
-                    <p>Try a different search or check back later for new products.</p>
-                </div>
+                <p class="text-center text-danger">There are no products.</p>
             </c:when>
             <c:otherwise>
-                <c:choose>
-                    <c:when test="${user.role == 'ADMIN'}">
-                        <!-- Admin View - Table Layout -->
-                        <div class="card shadow-sm">
-                            <div class="card-header bg-primary text-white">
-                                <h5 class="card-title mb-0">Product Management</h5>
-                            </div>
-                            <div class="card-body p-0">
-                                <table class="table table-striped mb-0">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Price</th>
-                                            <th scope="col">Quantity</th>
-                                            <th scope="col">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach items="${products}" var="p">
-                                            <tr>
-                                                <td>${p.id}</td>
-                                                <td>${p.nom}</td>
-                                                <td>€${p.prix}</td>
-                                                <td>${p.quantite}</td>
-                                                <td>
-                                                    <a href="update?id=${p.id}" class="btn btn-sm btn-outline-success me-1">
-                                                        <i class="fas fa-edit"></i> Edit
-                                                    </a>
-                                                    <a href="delete?id=${p.id}" class="btn btn-sm btn-outline-danger" 
-                                                       onclick="return confirm('Are you sure you want to delete this product?')">
-                                                        <i class="fas fa-trash-alt"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="card-footer">
-                                <a href="add" class="btn btn-success">
-                                    <i class="fas fa-plus-circle"></i> Add New Product
-                                </a>
-                            </div>
-                        </div>
-                    </c:when>
-                    <c:otherwise>
-                        <!-- User View - Card Layout -->
-                        <div class="row row-cols-1 row-cols-md-3 g-4">
-                            <c:forEach items="${products}" var="p">
-                                <div class="col">
-                                    <div class="card h-100 product-card shadow-sm">
-                                        <div class="card-body">
-                                            <h5 class="card-title">${p.nom}</h5>
-                                            <p class="card-text text-success fw-bold">€${p.prix}</p>
-                                            <p class="card-text">
-                                                <small class="text-muted">Available: ${p.quantite} units</small>
-                                            </p>
-                                        </div>
-                                        <div class="card-footer bg-transparent border-top-0">
-                                            <c:choose>
-                                                <c:when test="${p.quantite > 0 && not empty user && user.role == 'USER'}">
-                                                    <a href="add-to-cart?id=${p.id}" class="btn btn-primary w-100">
-                                                        <i class="fas fa-cart-plus"></i> Add to Cart
-                                                    </a>
-                                                </c:when>
-                                                <c:when test="${p.quantite > 0 && empty user}">
-                                                    <a href="login" class="btn btn-outline-primary w-100">
-                                                        Login to Purchase
-                                                    </a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <button class="btn btn-outline-secondary w-100" disabled>
-                                                        Out of Stock
-                                                    </button>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
+                <table class="table table-bordered">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody">
+                        <c:forEach items="${products}" var="p">
+                            <tr>
+                                <td>${p.id}</td>
+                                <td>${p.nom}</td>
+                                <td>${p.prix}</td>
+                                <td>${p.quantite}</td>
+                                <td>
+                                    <a href="update?id=${p.id}" class="btn-edit" title="Edit"><i class="fas fa-edit"></i></a>
+                                    <a href="delete?id=${p.id}" class="btn-delete" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
             </c:otherwise>
         </c:choose>
     </div>

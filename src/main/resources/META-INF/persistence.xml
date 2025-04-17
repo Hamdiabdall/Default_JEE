@@ -7,9 +7,6 @@
     <persistence-unit name="gestionproduits" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>entity.Produit</class>
-        <class>entity.User</class>
-        <class>entity.Order</class>
-        <class>entity.OrderItem</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/gestionproduits?createDatabaseIfNotExist=true&amp;useSSL=false&amp;serverTimezone=UTC"/>
