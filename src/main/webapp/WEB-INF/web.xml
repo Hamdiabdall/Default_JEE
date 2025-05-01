@@ -23,10 +23,48 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
     
-    <!-- Explicitly map the root context -->
+    <!-- Explicitly map all paths for proper routing -->
     <servlet-mapping>
         <servlet-name>controllerServlet</servlet-name>
         <url-pattern>/acceuil</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Product details path -->
+    <servlet-mapping>
+        <servlet-name>controllerServlet</servlet-name>
+        <url-pattern>/product/view</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Favorites paths -->
+    <servlet-mapping>
+        <servlet-name>controllerServlet</servlet-name>
+        <url-pattern>/favorites/list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>controllerServlet</servlet-name>
+        <url-pattern>/favorites/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>controllerServlet</servlet-name>
+        <url-pattern>/favorites/remove</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Cart paths -->
+    <servlet-mapping>
+        <servlet-name>controllerServlet</servlet-name>
+        <url-pattern>/cart/view</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>controllerServlet</servlet-name>
+        <url-pattern>/cart/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>controllerServlet</servlet-name>
+        <url-pattern>/cart/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>controllerServlet</servlet-name>
+        <url-pattern>/cart/remove</url-pattern>
     </servlet-mapping>
 
 </web-app>

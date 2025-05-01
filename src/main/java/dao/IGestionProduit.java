@@ -5,12 +5,14 @@ import java.util.List;
 import entity.Produit;
 
 public interface IGestionProduit {
-public void addProduct(Produit p);
-public List<Produit> getAllProducts();
-public List<Produit> getProductsByMc(String mc);
-public Produit getProduct(int id);
-public void deleteProduct(int id);
-public void updateProduct(Produit p);
-
-
+	Produit addProduct(Produit p);
+	List<Produit> getAllProducts();
+	List<Produit> getProductsByMc(String mc);
+	List<Produit> getProductsByCategory(int categoryId);
+	Produit getProduct(int id);
+	Produit updateProduct(Produit p);
+	void deleteProduct(int id);
+	
+	// New method to count products by category
+	int countProductsByCategory(int categoryId);
 }
